@@ -1,0 +1,119 @@
+---
+import { brand } from '../data/brand';
+const b = brand.booking;
+---
+
+<!--
+  Inline Cal.com embed, replacing the old element-click popup. The embed
+  script (~30KB + its own iframe) is not fetched until this section nears
+  the viewport (see the IntersectionObserver below), so it never competes
+  with the page's own load for PageSpeed. `.bookingcal` reserves a fixed
+  min-height up front so mounting the iframe never shifts layout.
+-->
+<section class="band booking" id={b.id} aria-labelledby={`${b.id}-h`}>
+  <div class="wrap">
+    <div data-reveal>
+      <p class="eyebrow">{b.eyebrow}</p>
+      <h2 class="h2" id={`${b.id}-h`}>{b.heading}</h2>
+      <p class="lead">{b.lead}</p>
+    </div>
+
+    <div class="bookingcard" data-reveal>
+      <div id="cal-inline" class="bookingcal" role="group" aria-label="Book a call — scheduling calendar">
+        <div class="bookingcal-loading" aria-hidden="true">
+          <span class="spinner"></span>
+          <span>Loading calendar&hellip;</span>
+        </div>
+      </div>
+      <noscript>
+        <p class="bookingcal-noscript">
+          Enable JavaScript to book inline, or <a href={`https://cal.com/${b.calLink}`}>open the booking page directly</a>.
+        </p>
+      </noscript>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ calLink: b.calLink, calNamespace: b.calNamespace, calConfig: b.calConfig }}>
+  function loadCalEmbed() {
+    (function (C, A, L) {
+      let p = function (a, ar) {
+        a.q.push(ar);
+      };
+      let d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement('script')).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              p(api, arguments);
+            };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === 'string') {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ['initNamespace', namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+    })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+    Cal('init', calNamespace, { origin: 'https://app.cal.com' });
+    Cal.ns[calNamespace]('inline', {
+      elementOrSelector: '#cal-inline',
+      calLink,
+      config: calConfig,
+    });
+    Cal.ns[calNamespace]('ui', { hideEventTypeDetails: false, layout: calConfig.layout });
+
+    // The iframe paints its own content asynchronously; hide the loading
+    // state once it exists rather than the instant Cal() returns.
+    const host = document.getElementById('cal-inline');
+    const loading = host && host.querySelector('.bookingcal-loading');
+    if (host && loading) {
+      const obs = new MutationObserver(() => {
+        if (host.querySelector('iframe')) {
+          loading.setAttribute('hidden', '');
+          obs.disconnect();
+        }
+      });
+      obs.observe(host, { childList: true });
+    }
+  }
+
+  let started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    loadCalEmbed();
+  }
+
+  const section = document.getElementById('booking');
+  if (section && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            start();
+            io.disconnect();
+          }
+        }
+      },
+      { rootMargin: '200px 0px' }
+    );
+    io.observe(section);
+  } else {
+    start();
+  }
+</script>

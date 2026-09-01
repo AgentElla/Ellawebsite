@@ -1044,6 +1044,86 @@ section {
 }
 
 /* ==========================================================================
+   Booking (inline Cal.com embed)
+   ========================================================================== */
+.bookingcard {
+  margin-top: clamp(36px, 5vh, 56px);
+  border-radius: 20px;
+  border: 1px solid var(--hair);
+  background: var(--bg-raise);
+  padding: clamp(10px, 1.6vw, 18px);
+  box-shadow: 0 30px 60px -30px color-mix(in oklch, var(--bg-deep) 70%, transparent);
+  /* The card itself never scrolls sideways; only the iframe's own content
+     (if it ever needs to) does, contained to .bookingcal below. */
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.bookingcal {
+  position: relative;
+  width: 100%;
+  /* Reserves the calendar's footprint before the iframe mounts, so loading
+     it never shifts anything below (CLS guard). Cal's own mobile layout
+     (useSlotsViewOnSmallScreen) is narrower but not shorter, hence one
+     min-height for all sizes rather than a smaller mobile value. */
+  min-height: clamp(560px, 78vh, 760px);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.bookingcal iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: clamp(560px, 78vh, 760px);
+  border: 0;
+}
+
+.bookingcal-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--bg-raise);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.bookingcal-loading[hidden] {
+  display: none;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid color-mix(in oklch, var(--accent) 35%, transparent);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bookingcal-noscript {
+  margin: 14px 4px 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.bookingcal-noscript a {
+  color: var(--accent);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 .foot {

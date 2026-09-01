@@ -33,25 +33,25 @@ export const brand = {
   },
 
   /**
-   * Booking destination for every "Book a call" control on the page.
-   * Kept as mailto: on purpose. The Cal.com element-click embed intercepts
-   * the click and opens the popup instead of following this href — but if
-   * the embed script ever fails to load, this is what actually fires, and
-   * opening the visitor's mail client is a safer fallback than sending them
-   * to an external page, which the embed is explicitly meant to avoid.
+   * Every "Book a call" control on the page points here: an in-page anchor
+   * to the Booking section's Cal.com inline embed (see booking.calLink
+   * below for the actual scheduling link). Plain anchor rather than a JS
+   * click handler, so it degrades to a normal same-page jump if anything
+   * else on the page fails to load.
    */
-  bookingHref: 'mailto:hello@consultproservices.com?subject=Consultation%20enquiry',
+  bookingHref: '#booking',
   bookingLabel: 'Book a call',
 
-  /**
-   * Cal.com element-click config, spread onto every booking control via
-   * `{...calTrigger}`. One source of truth so the namespace/link/config
-   * can't drift out of sync between the four buttons that use it.
-   */
-  calTrigger: {
-    'data-cal-namespace': 'booking',
-    'data-cal-link': 'consultpro/booking',
-    'data-cal-config': '{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}',
+  /** Section 10 — inline booking calendar. */
+  booking: {
+    id: 'booking',
+    eyebrow: 'Book a call',
+    heading: 'Find a time that works',
+    lead: 'Pick a slot below and it is booked immediately, no back-and-forth email required.',
+    /** Cal.com scheduling link — confirmed, unchanged from the previous popup embed. */
+    calLink: 'consultpro/booking',
+    calNamespace: 'booking',
+    calConfig: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true' },
   },
 
   /** Required alt text for the portrait, specified by the brief. */
