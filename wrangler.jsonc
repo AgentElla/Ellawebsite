@@ -9,5 +9,6 @@
 	"observability": {
 		"enabled": true
 	}
-	// Deploy verification commit: confirms GitHub -> Cloudflare auto-deploy is wired up.
+	// Deploy verification commit 2: Git connection was set up after the first
+	// push, so this retriggers a build now that it's active.
 }
