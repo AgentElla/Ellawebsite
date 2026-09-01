@@ -1,0 +1,36 @@
+---
+import { brand } from '../data/brand';
+import Icon from './Icon.astro';
+const s = brand.services;
+---
+
+<section class="band band--deep" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <div class="wrap">
+    <div data-reveal>
+      <hr class="rule" />
+      <h2 class="h2" id={`${s.id}-h`}>{s.heading}</h2>
+      <p class="lead">{s.lead}</p>
+    </div>
+
+    <div class="svc" data-reveal-group>
+      {
+        s.items.map((item) => (
+          <article class="card">
+            <span class="n">{item.n}</span>
+            <p class="k">
+              <Icon name={item.icon} size={16} strokeWidth={1.75} />
+              {item.key}
+            </p>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+            <ul>
+              {item.points.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

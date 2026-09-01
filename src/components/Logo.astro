@@ -1,0 +1,95 @@
+---
+/**
+ * Single source of truth for every visible logo on the site. Serves the
+ * final approved files in /public/brand/ as exact static bytes — no
+ * astro:assets pipeline, no resampling, no recolor filter. `public/` is
+ * intentionally outside Vite's module graph, which is what guarantees these
+ * are never touched: importing them for optimization would re-encode pixels,
+ * and this component's whole job is to not do that.
+ *
+ * If a requested layout+variant has no approved asset, this throws at build
+ * time rather than faking one with filter:invert() or similar, so a bad
+ * combination fails loudly instead of shipping broken.
+ *
+ * Asset inventory, measured against this page's actual background colour
+ * (oklch(0.323 0.052 173.2), a deep green — this page has no light section):
+ *   horizontal / default   dark-green ink   1.51:1 contrast  — NOT usable here
+ *   stacked    / default   dark-green ink   1.31:1 contrast  — NOT usable here
+ *   icon       / default   dark-green ink   1.64:1 contrast  — NOT usable here
+ *   horizontal / gold      dark-green ink   1.49:1 contrast  — NOT usable here
+ *   horizontal / reverse   white ink        12.24:1 contrast — the only
+ *                                                               combination
+ *                                                               that reads on
+ *                                                               this page
+ * Only horizontal/reverse is wired up on this page. The others are left in
+ * the lookup table (and render correctly the moment a page with a light
+ * section exists) but every other combination throws, since no
+ * stacked/reverse, icon/reverse, or gold-on-dark asset was supplied.
+ */
+
+type Layout = 'horizontal' | 'stacked' | 'icon';
+type Variant = 'default' | 'reverse' | 'gold';
+
+interface Asset {
+  src: string;
+  /** Intrinsic pixel size of the source file, for CLS-safe width/height. */
+  w: number;
+  h: number;
+}
+
+const assets: Partial<Record<Layout, Partial<Record<Variant, Asset>>>> = {
+  horizontal: {
+    default: { src: '/brand/ella-siew-logo-horizontal.webp', w: 2211, h: 676 },
+    reverse: { src: '/brand/ella-siew-logo-reverse.webp', w: 2205, h: 752 },
+    gold: { src: '/brand/ella-siew-logo-gold-accent.webp', w: 2201, h: 757 },
+  },
+  stacked: {
+    default: { src: '/brand/ella-siew-logo-stacked.webp', w: 1154, h: 1399 },
+  },
+  icon: {
+    default: { src: '/brand/ella-siew-logo-icon.webp', w: 1243, h: 1208 },
+  },
+};
+
+interface Props {
+  layout?: Layout;
+  variant?: Variant;
+  /** Rendered pixel width; height follows from the asset's own ratio. */
+  width: number;
+  alt?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+const {
+  layout = 'horizontal',
+  variant = 'default',
+  width,
+  alt = 'Ella Siew',
+  class: className,
+  loading = 'eager',
+} = Astro.props;
+
+const asset = assets[layout]?.[variant];
+
+if (!asset) {
+  throw new Error(
+    `<Logo layout="${layout}" variant="${variant}"> has no approved asset. ` +
+      `Available: horizontal/default, horizontal/reverse, horizontal/gold, ` +
+      `stacked/default, icon/default. Request the missing export from the ` +
+      `brand identity sheet rather than faking this one with CSS.`
+  );
+}
+
+const height = Math.round((width / asset.w) * asset.h);
+---
+
+<img
+  src={asset.src}
+  width={width}
+  height={height}
+  alt={alt}
+  class={className}
+  loading={loading}
+  decoding="async"
+/>

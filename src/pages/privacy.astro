@@ -1,0 +1,266 @@
+---
+import OnePage from '../layouts/OnePage.astro';
+import Nav from '../components/Nav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { brand } from '../data/brand';
+
+const domainDisplay = brand.url.replace(/^https?:\/\//, '');
+
+const title = `Privacy Policy | ${brand.name}`;
+const description = `How ${brand.name} and ${brand.company.name} collect, use, disclose, retain and protect personal data through this website.`;
+---
+
+<OnePage title={title} description={description}>
+  <Nav slot="nav" />
+
+  <section class="legal" aria-labelledby="privacy-h">
+    <div class="wrap">
+      <h1 id="privacy-h">Privacy Policy</h1>
+
+      <p>
+        This Privacy Policy explains how Ella Siew and {brand.company.name} (together, "we",
+        "us" or "our") collect, use, disclose, retain and protect personal data through{' '}
+        {domainDisplay} (the "Website"), our communications, consultations, content, products
+        and services.
+      </p>
+
+      <p>
+        The Website is the personal website of Ella Siew, jointly operated by Ella Siew and{' '}
+        {brand.company.name}. The Website presents Ella Siew's personal brand, professional
+        insights and services and connects visitors with services offered through{' '}
+        {brand.company.name}. Ella Siew and {brand.company.name} jointly operate the Website and
+        are responsible for the personal data described in this Policy. Unless a checkout page,
+        proposal or service agreement expressly states otherwise, {brand.company.name} is the
+        contracting service provider for paid services purchased through or following use of the
+        Website.
+      </p>
+
+      <p>
+        For the purposes of the Personal Data (Privacy) Ordinance (Cap. 486) of Hong Kong (the
+        "PDPO"), we act as data users in relation to personal data under our control. Where
+        another applicable law uses the term "controller", we act as controllers unless a service
+        agreement states that we process data only on a client's instructions.
+      </p>
+
+      <h2>1. Scope</h2>
+      <p>
+        This Policy applies to Website visitors, subscribers, prospective clients, clients,
+        purchasers, people who book consultations, and business contacts. It covers interactions
+        through the Website, Cal.com, email, telephone, newsletters, online checkout and related
+        communications.
+      </p>
+      <p>
+        Third-party websites and services have their own privacy practices. This Policy does not
+        control how an independent third party processes data after you follow an external link
+        or use its service.
+      </p>
+
+      <h2>2. Personal data we collect</h2>
+      <p>Depending on how you interact with us, we may collect:</p>
+      <ul>
+        <li><strong>Identity and contact data:</strong> name, email address, telephone number, company, job title, country or location, and preferred contact method.</li>
+        <li><strong>Enquiry and booking data:</strong> messages, appointment time, time zone, meeting details, answers to booking questions, rescheduling or cancellation information, and information submitted through Website forms or Cal.com.</li>
+        <li><strong>Professional and profile data:</strong> organisation, industry, role, website, LinkedIn or other public professional profile, expertise, audience, business objectives, brand positioning, marketing activities and project requirements.</li>
+        <li><strong>Service and correspondence data:</strong> proposals, contracts, instructions, call notes, feedback, deliverables, support requests and records of our communications.</li>
+        <li><strong>Transaction and billing data:</strong> billing name and address, purchased item or service, amount, currency, tax information, payment status, transaction reference, invoice details and limited payment information supplied by a payment processor. We do not intend to store complete payment-card numbers or security codes.</li>
+        <li><strong>Subscription and marketing data:</strong> newsletter registration, topics of interest, consent records, communication preferences, email engagement where enabled, and unsubscribe or objection requests.</li>
+        <li><strong>Technical and usage data:</strong> IP address, browser and device information, operating system, referring page, pages viewed, dates and times, approximate location, cookie or similar identifiers, consent choices, server logs and security events.</li>
+        <li><strong>Content you provide:</strong> documents, images, comments, survey answers, testimonials or other materials voluntarily supplied to us.</li>
+      </ul>
+      <p>Please do not provide sensitive personal data unless we specifically request it and explain why it is needed.</p>
+
+      <h2>3. How we collect personal data</h2>
+      <p>We collect personal data:</p>
+      <ul>
+        <li>directly from you when you submit a form, book a consultation, subscribe, contact us, buy a product or service, sign an agreement or communicate with us;</li>
+        <li>automatically through cookies, server logs and similar technologies when you use the Website;</li>
+        <li>from service providers supporting scheduling, communications, payments, website operations and analytics;</li>
+        <li>from public professional sources, such as a company website or LinkedIn profile, where relevant to an enquiry or business relationship; and</li>
+        <li>from a colleague, employer, referrer or business partner where they introduce you or provide your business contact details lawfully.</li>
+      </ul>
+      <p>If you provide personal data about another person, you should have authority to do so and make this Policy available to that person where appropriate.</p>
+
+      <h2>4. Why we use personal data</h2>
+      <p>We may use personal data to:</p>
+      <ul>
+        <li>respond to enquiries and communicate with you;</li>
+        <li>arrange, manage and follow up consultations through Cal.com or other confirmed scheduling tools;</li>
+        <li>assess your needs, prepare proposals and enter into contracts;</li>
+        <li>provide personal-branding, AI visibility, AI SEO/GEO, advisory, content, digital product or other purchased services;</li>
+        <li>create and administer accounts, orders, payments, invoices, refunds and transaction records;</li>
+        <li>deliver newsletters, insights and offers where we have the required consent or other lawful permission;</li>
+        <li>personalise content and understand how visitors use the Website;</li>
+        <li>measure Website and campaign performance where analytics is enabled;</li>
+        <li>secure, maintain, troubleshoot and improve the Website and our operations;</li>
+        <li>detect fraud, misuse, security incidents and violations of our terms;</li>
+        <li>establish, exercise or defend legal claims; and</li>
+        <li>comply with legal, regulatory, tax, accounting and record-keeping duties.</li>
+      </ul>
+      <p>We will not use personal data for a new purpose that is incompatible with the purpose for which it was collected unless permitted by law or we obtain any consent required.</p>
+
+      <h2>5. Direct marketing</h2>
+      <p>
+        We may use your name, email address, contact details, professional interests and service
+        history to send information and offers concerning personal branding, AI visibility, AI
+        SEO/GEO, professional content, events, digital products and related consulting services.
+      </p>
+      <p>
+        Where the PDPO requires consent, we will provide the required information and obtain your
+        consent before using personal data for direct marketing. Marketing consent is optional
+        and is separate from acceptance of this Policy or our Terms of Use. We will not provide
+        your personal data to another person for that person's direct marketing without the
+        consent required by law.
+      </p>
+      <p>
+        You may unsubscribe at any time without charge by using the unsubscribe link in an email
+        or contacting <a href={`mailto:${brand.email}`}>{brand.email}</a>. We may retain a minimal
+        suppression record to honour your request.
+      </p>
+      <p>
+        Service messages relating to a booking, order, contract, payment, security matter or
+        requested service are not promotional communications and may continue where necessary.
+      </p>
+
+      <h2>6. Cookies and analytics</h2>
+      <p>
+        As of publication, this Website does not use analytics or marketing cookies, and no
+        non-essential tracking is active. The Website may in future use:
+      </p>
+      <ul>
+        <li><strong>Necessary technologies</strong> required for security, network delivery, forms, consent preferences and core Website functions;</li>
+        <li><strong>Analytics technologies</strong> to understand traffic, page usage and performance; and</li>
+        <li><strong>Marketing technologies</strong> to measure campaigns or personalise promotional activity, if introduced.</li>
+      </ul>
+      <p>
+        Where required, non-essential analytics or marketing technologies will operate only after
+        you make the relevant consent choice, and a cookie banner or settings control will be
+        added at that time. You may also restrict cookies through your browser, although doing so
+        can affect Website functions.
+      </p>
+      <p>
+        We do not claim to use a provider that has not been implemented. This section will be
+        updated to name the specific provider before it is switched on.
+      </p>
+
+      <h2>7. Payments</h2>
+      <p>
+        As of publication, this Website does not process online payments. If online payment is
+        introduced, payments will be processed by an independent payment provider. That provider
+        may collect payment-card, bank, authentication, fraud-prevention and transaction
+        information under its own privacy notice. We would generally receive confirmation,
+        transaction references and limited billing details rather than complete card credentials.
+      </p>
+      <p>
+        The checkout page will identify the payment provider or provide access to its applicable
+        terms and privacy information once a provider is confirmed. Transaction information would
+        be used to process orders, deliver purchases, manage refunds or disputes, prevent fraud
+        and meet accounting and legal duties.
+      </p>
+
+      <h2>8. How we disclose personal data</h2>
+      <p>We may disclose relevant personal data to:</p>
+      <ul>
+        <li>{brand.company.name} personnel, contractors and professional advisers who need it for authorised work;</li>
+        <li><strong>Cal.com, Inc.</strong>, which we use for appointment scheduling (<a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">cal.com/privacy<span class="sr-only"> (opens in a new tab)</span></a>);</li>
+        <li><strong>Cloudflare, Inc.</strong>, which we use for website hosting and content delivery (<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacypolicy<span class="sr-only"> (opens in a new tab)</span></a>);</li>
+        <li><strong>Google LLC</strong>, which we use for website typography via Google Fonts (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy<span class="sr-only"> (opens in a new tab)</span></a>);</li>
+        <li>email, newsletter, customer-relationship, communications, payment and analytics providers, if and when we engage one;</li>
+        <li>a purchaser, investor or adviser involved in a genuine corporate transaction, subject to appropriate safeguards;</li>
+        <li>regulators, courts, law-enforcement agencies or other persons where disclosure is required or permitted by law; and</li>
+        <li>other persons with your direction or consent.</li>
+      </ul>
+      <p>Service providers are expected to handle personal data only for authorised purposes and with appropriate protection. We do not sell personal data.</p>
+
+      <h2>9. International processing</h2>
+      <p>
+        We are based in Hong Kong and serve an international audience. Service providers may
+        store or process personal data in Hong Kong or other jurisdictions, including Cal.com,
+        Cloudflare and Google as named above. Privacy laws and enforcement may differ between
+        locations.
+      </p>
+      <p>
+        Where required by applicable law, we use contractual or other appropriate safeguards for
+        cross-border processing. By using an external service such as Cal.com or a payment
+        provider, your data may also be processed in locations described in that provider's
+        privacy notice.
+      </p>
+
+      <h2>10. Retention</h2>
+      <p>
+        We retain personal data only for as long as reasonably necessary for the purposes
+        described in this Policy, including to provide services, maintain business and
+        transaction records, honour marketing objections, resolve disputes and comply with legal,
+        tax and accounting requirements.
+      </p>
+      <p>
+        Retention periods vary according to the type of record, the relationship, legal
+        obligations and the risk involved. When personal data is no longer required, we will
+        delete, anonymise or securely dispose of it, subject to lawful backup and archival
+        cycles.
+      </p>
+
+      <h2>11. Security</h2>
+      <p>
+        We use reasonable administrative, technical and organisational measures designed to
+        protect personal data against unauthorised access, alteration, disclosure, loss or
+        misuse. These may include access controls, secure service providers, encryption in
+        transit, authentication, backups and operational controls.
+      </p>
+      <p>
+        No internet transmission or storage system is completely secure. You are responsible for
+        protecting your own account credentials, devices and copies of communications.
+      </p>
+
+      <h2>12. Your choices and rights</h2>
+      <p>Subject to applicable law, you may:</p>
+      <ul>
+        <li>request access to personal data we hold about you;</li>
+        <li>request correction of inaccurate personal data;</li>
+        <li>withdraw a consent where processing depends on consent, without affecting earlier lawful processing;</li>
+        <li>object to or opt out of direct marketing;</li>
+        <li>request deletion, restriction, portability or objection where another applicable privacy law grants those rights; and</li>
+        <li>complain to an applicable privacy regulator.</li>
+      </ul>
+      <p>
+        To make a request, email <a href={`mailto:${brand.email}`}>{brand.email}</a> with the
+        subject "Privacy Request" and describe the relevant records. We may need to verify your
+        identity. Requests under the PDPO will be handled in accordance with its requirements,
+        including any lawful fee or exception.
+      </p>
+
+      <h2>13. Children</h2>
+      <p>
+        The Website and our business services are intended for adults and are not directed to
+        children. We do not knowingly seek personal data from children. If you believe a child
+        has provided personal data without appropriate authority, contact us so we can assess and
+        address it.
+      </p>
+
+      <h2>14. Third-party links and embedded services</h2>
+      <p>
+        The Website may link to or embed services such as Cal.com, social networks, video
+        platforms or payment pages. Those services may collect data directly from you and operate
+        under their own terms and privacy notices. Review those notices before providing
+        information.
+      </p>
+
+      <h2>15. Changes to this Policy</h2>
+      <p>
+        We may revise this Policy when our practices, services, providers or legal obligations
+        change. The current version will be posted on this page. If a change materially affects
+        how we use personal data, we will provide additional notice or seek consent where
+        required.
+      </p>
+
+      <h2>16. Contact</h2>
+      <p>For privacy questions, requests or complaints, contact:</p>
+      <p>
+        <strong>Ella Siew and {brand.company.name}</strong><br />
+        Website: {domainDisplay}<br />
+        Email: <a href={`mailto:${brand.email}`}>{brand.email}</a>
+      </p>
+    </div>
+  </section>
+
+  <SiteFooter slot="footer" />
+</OnePage>

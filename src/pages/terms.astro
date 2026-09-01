@@ -1,0 +1,350 @@
+---
+import OnePage from '../layouts/OnePage.astro';
+import Nav from '../components/Nav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { brand } from '../data/brand';
+
+const domainDisplay = brand.url.replace(/^https?:\/\//, '');
+
+const title = `Terms of Use | ${brand.name}`;
+const description = `The terms that govern access to and use of this website, operated by ${brand.name} and ${brand.company.name}.`;
+---
+
+<OnePage title={title} description={description}>
+  <Nav slot="nav" />
+
+  <section class="legal" aria-labelledby="terms-h">
+    <div class="wrap">
+      <h1 id="terms-h">Terms of Use</h1>
+
+      <p>
+        These Terms of Use ("Terms") govern your access to and use of {domainDisplay} (the
+        "Website"), including its articles, downloads, booking functions, products and services.
+      </p>
+
+      <p>
+        The Website is the personal website of Ella Siew, jointly operated by Ella Siew and{' '}
+        {brand.company.name} ("we", "us" or "our"). Unless a checkout page, proposal, order form
+        or service agreement expressly identifies another seller, {brand.company.name} is the
+        contracting provider for paid products and services purchased through or following use of
+        the Website.
+      </p>
+
+      <p>
+        By using the Website, you agree to these Terms. If you do not agree, do not use the
+        Website. Additional terms shown at checkout or contained in a signed proposal, order form
+        or service agreement apply to the relevant purchase. If there is a conflict, the more
+        specific transaction document prevails for that transaction.
+      </p>
+
+      <h2>1. About the Website</h2>
+      <p>
+        The Website presents Ella Siew's professional profile, insights and services concerning
+        personal branding, AI visibility, AI SEO/GEO, LinkedIn presence, digital authority and
+        related topics. It may allow you to read or download content, contact us, book
+        consultations, subscribe to communications and purchase products or services.
+      </p>
+      <p>
+        Website content is general information. It is not legal, financial, investment, medical
+        or other regulated professional advice and should not be relied upon as such. You should
+        obtain appropriate independent advice for your circumstances.
+      </p>
+
+      <h2>2. Eligibility and authority</h2>
+      <p>
+        You must be at least 18 years old and legally capable of entering into a contract to make
+        a purchase. If you use the Website for an organisation, you confirm that you have
+        authority to act for it and that the organisation accepts these Terms.
+      </p>
+
+      <h2>3. Bookings and consultations</h2>
+      <p>
+        Bookings are handled through Cal.com. Available times are not guaranteed until the
+        booking is confirmed.
+      </p>
+      <p>
+        You must provide accurate booking information and attend at the confirmed time.
+        Rescheduling, cancellation, lateness and no-show rules displayed during booking form part
+        of the booking terms. A free or introductory consultation does not create an ongoing
+        advisory, agency, fiduciary or client relationship and does not oblige either party to
+        enter into a paid engagement.
+      </p>
+      <p>
+        We may decline, cancel or reschedule a consultation where reasonably necessary, including
+        because of availability, conflict, safety, suspected misuse or circumstances beyond our
+        reasonable control. If we cancel a prepaid consultation and do not provide a suitable
+        alternative, the amount paid for that consultation will be refunded, subject to applicable
+        law.
+      </p>
+
+      <h2>4. Purchases and contract formation</h2>
+      <p>
+        Before you pay, the applicable product page, checkout, proposal or order form should
+        state the seller, material description, price, currency, taxes or additional charges,
+        billing frequency, delivery or access timing, cancellation and refund terms.
+      </p>
+      <p>
+        Submitting an order is an offer to purchase. A contract is formed when we accept the order
+        by issuing confirmation or beginning performance, unless the checkout states otherwise. We
+        may reject or cancel an order before acceptance for reasons such as pricing or description
+        error, suspected fraud, unavailability, legal restrictions or inability to supply. If
+        payment has been taken for a rejected order, it will be returned using an appropriate
+        method.
+      </p>
+      <p>
+        You are responsible for providing correct billing, contact and delivery information and
+        for ensuring that your payment method is authorised.
+      </p>
+
+      <h2>5. Services</h2>
+      <p>
+        The precise scope, deliverables, timetable, client responsibilities, fees, revision limits
+        and acceptance criteria for consulting or implementation services must be set out in a
+        proposal, order form or service agreement. The Website alone does not promise a
+        particular project scope.
+      </p>
+      <p>
+        You agree to provide timely, accurate information, access, approvals and materials
+        reasonably required for the work. Delays or omissions by you may affect schedules and
+        results. Changes outside the agreed scope may require revised fees and timing, subject to
+        your approval.
+      </p>
+      <p>
+        We will provide services with reasonable care and skill. Unless expressly guaranteed in a
+        signed agreement, we do not guarantee search rankings, AI citations, audience growth,
+        leads, revenue, media exposure, LinkedIn performance or any other particular commercial
+        result. Search engines, AI platforms, social networks and third-party algorithms are
+        outside our control and may change without notice.
+      </p>
+
+      <h2>6. Digital products, downloads and content access</h2>
+      <p>
+        Digital products may include guides, templates, recordings, courses, reports or other
+        downloadable or online materials. The relevant product page will describe the access
+        method, included content and any access period.
+      </p>
+      <p>
+        Unless expressly stated otherwise, a purchase gives you a limited, personal or
+        internal-business, non-exclusive, non-transferable licence to use the purchased
+        materials. You may not resell, sublicense, publish, share access credentials, distribute
+        substantial copies, remove ownership notices or use the materials to create a competing
+        product.
+      </p>
+
+      <h2>7. Prices, payment and recurring charges</h2>
+      <p>
+        Prices and accepted payment methods are shown at checkout. You must pay all disclosed
+        amounts in the stated currency. You are responsible for taxes or charges identified before
+        purchase, except taxes imposed on our income.
+      </p>
+      <p>
+        We will not impose a recurring subscription unless the checkout clearly states the billing
+        frequency, renewal terms, price and cancellation method before you agree. Where recurring
+        billing applies, you authorise the payment provider to charge the selected method
+        according to those disclosed terms until cancellation takes effect.
+      </p>
+      <p>
+        Payment processing may be supplied by a third party under its own terms. We are not
+        responsible for a payment provider's independent service failure, but this does not
+        remove any responsibility that applicable law places on us as seller.
+      </p>
+
+      <h2>8. Cancellations and refunds</h2>
+      <p>
+        The cancellation and refund policy disclosed on the relevant product page, booking page,
+        checkout, proposal or order form applies to that purchase. Review it before paying.
+        Different services and digital products may have different rules because preparation,
+        reserved time, delivery and access conditions differ.
+      </p>
+      <p>
+        Nothing in these Terms excludes a refund, cancellation right or other remedy that cannot
+        lawfully be excluded. If no specific policy was displayed, contact{' '}
+        <a href={`mailto:${brand.email}`}>{brand.email}</a>; we will assess the request fairly having
+        regard to whether performance began, resources were committed, digital access was supplied
+        and applicable law.
+      </p>
+      <p>
+        We do not state that all purchases are non-refundable unless that rule is specifically
+        disclosed before purchase and is lawful in the buyer's location.
+      </p>
+
+      <h2>9. Your content and permissions</h2>
+      <p>
+        You retain ownership of materials you submit. You grant us a limited permission to host,
+        copy, adapt and use those materials only as reasonably necessary to respond to you,
+        provide contracted services, process a purchase, maintain records and exercise our legal
+        rights.
+      </p>
+      <p>
+        You confirm that you have the necessary rights to provide the materials and that our
+        authorised use will not infringe another person's rights. We will not publish your name,
+        testimonial, logo, case study or confidential client material for promotional purposes
+        without appropriate permission.
+      </p>
+
+      <h2>10. Intellectual property</h2>
+      <p>
+        The Website and its original text, design, graphics, branding, downloads, methods and
+        other content are owned by or licensed to Ella Siew or {brand.company.name} and are
+        protected by applicable intellectual-property laws.
+      </p>
+      <p>
+        You may view the Website and make limited copies for personal, non-commercial reference.
+        You may not reproduce, republish, sell, scrape, systematically extract, modify, distribute
+        or exploit Website content without prior written permission, except where law permits.
+      </p>
+      <p>
+        Short quotations may be used with clear attribution and a link to the source where
+        permitted by law. Names, logos and branding may not be used in a way that suggests
+        endorsement or affiliation without permission.
+      </p>
+
+      <h2>11. Acceptable use</h2>
+      <p>You must not:</p>
+      <ul>
+        <li>use the Website unlawfully, fraudulently or to harm another person;</li>
+        <li>interfere with security, availability, servers or networks;</li>
+        <li>introduce malware, malicious code or automated abuse;</li>
+        <li>attempt unauthorised access to accounts, systems or data;</li>
+        <li>submit false, misleading, infringing, defamatory or harmful content;</li>
+        <li>harvest personal data or send unsolicited communications;</li>
+        <li>bypass access, payment or usage restrictions; or</li>
+        <li>use Website content or services in a manner that violates another person's rights.</li>
+      </ul>
+      <p>We may restrict access where reasonably necessary to protect the Website, users, our rights or legal compliance.</p>
+
+      <h2>12. Third-party services and links</h2>
+      <p>
+        The Website uses Cal.com for booking and Google Fonts for typography, and may link to
+        social networks, payment providers and other third-party services in future. We do not
+        control their independent content, availability, security or practices. A link does not
+        necessarily mean endorsement. Your use of a third-party service may be governed by its own
+        terms and privacy notice.
+      </p>
+
+      <h2>13. Confidentiality</h2>
+      <p>
+        Information submitted through a general contact form or introductory consultation should
+        not be treated as subject to a professional privilege or comprehensive confidentiality
+        obligation unless we have signed an agreement that provides otherwise.
+      </p>
+      <p>
+        Once a client engagement begins, confidentiality obligations will be governed by the
+        applicable proposal, order form, nondisclosure agreement or service agreement. We will
+        nevertheless handle personal data in accordance with our Privacy Policy.
+      </p>
+
+      <h2>14. Disclaimers</h2>
+      <p>
+        We aim to keep Website content useful and accurate, but content may be general, incomplete
+        or become outdated. To the extent permitted by law, the Website is provided on an
+        "as available" basis without a guarantee of uninterrupted access, error-free operation or
+        suitability for every purpose.
+      </p>
+      <p>
+        Examples, educational materials and past outcomes do not guarantee future results. You
+        remain responsible for your business, publishing, marketing, investment and implementation
+        decisions.
+      </p>
+      <p>
+        Nothing in these Terms excludes an express commitment in a signed agreement or a statutory
+        obligation that cannot lawfully be excluded.
+      </p>
+
+      <h2>15. Liability</h2>
+      <p>
+        To the fullest extent permitted by law, neither Ella Siew nor {brand.company.name} will
+        be liable for indirect or consequential loss, loss of profits, revenue, opportunity,
+        goodwill or data arising from use of the Website or general free content.
+      </p>
+      <p>
+        For a paid purchase, any limitation or allocation of liability in the applicable proposal,
+        order form or service agreement will apply. Where no specific agreement applies, our
+        aggregate liability arising from that purchase will not exceed the amount you paid for the
+        affected product or service, except to the extent such a limitation is prohibited by law.
+      </p>
+      <p>
+        Nothing in these Terms limits liability for fraud, fraudulent misrepresentation, wilful
+        misconduct, or any death, personal injury, consumer right or other liability that cannot
+        lawfully be limited or excluded.
+      </p>
+
+      <h2>16. Indemnity for misuse</h2>
+      <p>
+        To the extent permitted by law, you agree to be responsible for reasonable losses, claims
+        and costs arising from your unlawful misuse of the Website, infringement of another
+        person's rights, or material breach of these Terms. This clause does not apply to the
+        extent the loss was caused by our own breach or wrongdoing and does not reduce any
+        non-excludable consumer right.
+      </p>
+
+      <h2>17. Privacy</h2>
+      <p>
+        Our <a href="/privacy">Privacy Policy</a> explains how we handle personal data. It forms
+        part of the Website information but does not replace any separate data-processing terms
+        required for a client project.
+      </p>
+
+      <h2>18. Suspension and termination</h2>
+      <p>
+        You may stop using the Website at any time. We may suspend or terminate access where you
+        materially breach these Terms, fail to pay an undisputed amount, threaten security or
+        legal compliance, or misuse content or services.
+      </p>
+      <p>
+        Termination does not affect accrued payment obligations, rights or provisions intended to
+        survive, including intellectual property, confidentiality, liability and dispute
+        provisions. Treatment of prepaid fees will remain subject to the purchase terms and
+        applicable law.
+      </p>
+
+      <h2>19. Changes to the Website and Terms</h2>
+      <p>
+        We may update the Website and these Terms to reflect service, operational or legal
+        changes. The current Terms will be posted on this page. Changes will not retroactively
+        alter an accepted purchase or signed agreement unless permitted by that agreement or
+        required by law.
+      </p>
+
+      <h2>20. Governing law and disputes</h2>
+      <p>
+        These Terms and non-contractual disputes relating to the Website are governed by the laws
+        of the Hong Kong Special Administrative Region, without regard to conflict-of-law
+        principles.
+      </p>
+      <p>
+        The courts of Hong Kong have non-exclusive jurisdiction. This does not remove any
+        mandatory consumer protection or right to bring proceedings that applies in your place of
+        residence and cannot lawfully be waived.
+      </p>
+      <p>
+        Before commencing formal proceedings, you and we should first attempt in good faith to
+        resolve the dispute by written notice, unless urgent relief is required.
+      </p>
+
+      <h2>21. General</h2>
+      <p>
+        If a provision is unlawful or unenforceable, it will be limited or removed to the minimum
+        extent necessary and the remaining provisions will continue. A failure to enforce a
+        provision is not a waiver. You may not transfer your rights or obligations without our
+        consent; we may transfer ours as part of a genuine reorganisation, business transfer or
+        assignment that does not unlawfully reduce your rights.
+      </p>
+      <p>
+        These Terms, together with the Privacy Policy and any applicable checkout terms, proposal,
+        order form or service agreement, constitute the relevant agreement for the matters they
+        cover.
+      </p>
+
+      <h2>22. Contact</h2>
+      <p>Questions about these Terms, an order or a service may be sent to:</p>
+      <p>
+        <strong>Ella Siew and {brand.company.name}</strong><br />
+        Website: {domainDisplay}<br />
+        Email: <a href={`mailto:${brand.email}`}>{brand.email}</a>
+      </p>
+    </div>
+  </section>
+
+  <SiteFooter slot="footer" />
+</OnePage>

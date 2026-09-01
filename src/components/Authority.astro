@@ -1,0 +1,22 @@
+---
+import { brand } from '../data/brand';
+const s = brand.authority;
+---
+
+<section class="band authority" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <div class="wrap">
+    <div class="grid">
+      <div data-reveal>
+        <hr class="rule" />
+        <h2 class="h2" id={`${s.id}-h`}>{s.heading}</h2>
+        <p class="pull">{s.pull}</p>
+      </div>
+
+      <div class="prose" data-reveal>
+        <!-- Answers the heading in one sentence, before any elaboration. -->
+        <p class="lead">{s.lead}</p>
+        {s.body.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </div>
+</section>

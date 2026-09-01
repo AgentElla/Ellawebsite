@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import { brand } from '../data/brand';
+import light from '../assets/plate-light.png';
+const s = brand.cta;
+---
+
+<section class="close" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <!-- Decorative backdrop: empty alt, hidden from assistive tech. A scrim
+       sits over it so the CTA text keeps its contrast regardless of crop. -->
+  <div class="closebg" aria-hidden="true">
+    <Image
+      src={light}
+      alt=""
+      widths={[768, 1280, 1920, 2560]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+
+  <div class="wrap" data-reveal>
+    <p class="eyebrow">{s.eyebrow}</p>
+    <h2 id={`${s.id}-h`}>{s.heading}</h2>
+    <p>{s.body}</p>
+
+    <div class="actions">
+      <a class="btn btn--primary" href={brand.bookingHref} data-magnetic {...brand.calTrigger}>
+        {brand.bookingLabel}
+        <span class="arw" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>

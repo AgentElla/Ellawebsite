@@ -1,0 +1,16 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# cloudflare
+.wrangler/
+
+# environment
+.env
+.env.production
+
+# macOS / editors
+.DS_Store

@@ -1,0 +1,25 @@
+---
+import { brand } from '../data/brand';
+import Logo from './Logo.astro';
+
+const links = [
+  { href: `#${brand.services.id}`, label: 'What I do' },
+  { href: `#${brand.process.id}`, label: 'How I work' },
+  { href: `#${brand.about.id}`, label: 'About' },
+  { href: `#${brand.insights.id}`, label: 'Insights' },
+];
+---
+
+<nav class="nav" aria-label="Primary">
+  <a class="mark" href="#main">
+    <!-- horizontal/reverse is the only combination that reads on this page's
+         dark background (see Logo.astro's contrast notes) -->
+    <Logo layout="horizontal" variant="reverse" width={128} alt={brand.name} />
+  </a>
+
+  <div class="links">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+  </div>
+
+  <a class="navcta" href={brand.bookingHref} {...brand.calTrigger}>{brand.bookingLabel}</a>
+</nav>

@@ -1,0 +1,52 @@
+---
+import { getImage } from 'astro:assets';
+import OnePage from '../layouts/OnePage.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Authority from '../components/Authority.astro';
+import Services from '../components/Services.astro';
+import Audience from '../components/Audience.astro';
+import Plate from '../components/Plate.astro';
+import Process from '../components/Process.astro';
+import About from '../components/About.astro';
+import Insights from '../components/Insights.astro';
+import ClosingCTA from '../components/ClosingCTA.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { brand } from '../data/brand';
+import { portrait } from '../data/portrait';
+
+// Absolute URL of the portrait for structured data, once a photo exists.
+// Width matches the largest entry in the hero's srcset so the two share one
+// generated derivative instead of emitting a near-duplicate file.
+let schemaImage: string | undefined;
+if (portrait) {
+  const built = await getImage({ src: portrait, width: 768 });
+  schemaImage = new URL(built.src, brand.url).toString();
+}
+
+// The icon-only mark, dark ink on transparent — correct for
+// ProfessionalService.logo, which search engines render on their own light
+// surfaces, not this page's dark background. Byte-identical file, no pipeline.
+const schemaLogo = new URL('/brand/ella-siew-logo-icon.webp', brand.url).toString();
+---
+
+<OnePage
+  title={brand.seo.title}
+  description={brand.seo.description}
+  schemaImage={schemaImage}
+  schemaLogo={schemaLogo}
+>
+  <Nav slot="nav" />
+
+  <Hero />
+  <Authority />
+  <Services />
+  <Audience />
+  <Plate />
+  <Process />
+  <About />
+  <Insights />
+  <ClosingCTA />
+
+  <SiteFooter slot="footer" />
+</OnePage>

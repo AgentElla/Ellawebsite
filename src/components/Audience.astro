@@ -1,0 +1,27 @@
+---
+import { brand } from '../data/brand';
+const s = brand.audience;
+---
+
+<section class="band" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <div class="wrap">
+    <div data-reveal>
+      <hr class="rule" />
+      <h2 class="h2" id={`${s.id}-h`}>{s.heading}</h2>
+      <p class="lead">{s.lead}</p>
+    </div>
+
+    <div class="aud" data-reveal-group>
+      {
+        s.items.map((item) => (
+          <div class="item">
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="aud-note" data-reveal>{s.note}</p>
+  </div>
+</section>

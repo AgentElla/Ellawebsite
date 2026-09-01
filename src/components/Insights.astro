@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import { brand } from '../data/brand';
+import band from '../assets/insights-band.png';
+import Icon from './Icon.astro';
+const s = brand.insights;
+---
+
+<section class="band band--deep" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <div class="wrap">
+    <div data-reveal>
+      <hr class="rule" />
+      <h2 class="h2" id={`${s.id}-h`}>{s.heading}</h2>
+      <p class="lead">{s.lead}</p>
+    </div>
+
+    <figure class="insband" data-reveal>
+      <Image
+        src={band}
+        alt={brand.insightsBandAlt}
+        widths={[760, 1180, 1856]}
+        sizes="(max-width: 1180px) 100vw, 1180px"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
+    <div class="ins" data-reveal-group>
+      {
+        s.items.map((item) => (
+          <article class="item">
+            <p class="k">
+              <Icon name={item.icon} size={16} strokeWidth={1.75} />
+              {item.k}
+            </p>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Not a link: no confirmed post URLs exist yet, and linking this to
+         the LinkedIn homepage would imply these are specific, findable
+         posts. See the comment on brand.insights for how to restore a real
+         CTA once permalinks exist. -->
+    <p class="ins-note" data-reveal>{s.comingSoonLabel}</p>
+  </div>
+</section>

@@ -1,0 +1,66 @@
+---
+import { brand } from '../data/brand';
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <!-- Aurora glow; the drifting dots are injected by motion.js, and skipped
+       entirely under prefers-reduced-motion. -->
+  <div class="footfx" aria-hidden="true">
+    <span class="aurora"></span>
+  </div>
+
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <!-- The wordmark already reads "ELLA SIEW" — no text mark repeated
+             beside it. brand.role isn't baked into this asset, so that stays
+             as text underneath. -->
+        <p class="mark">
+          <Logo layout="horizontal" variant="reverse" width={190} alt={brand.name} loading="lazy" />
+        </p>
+        <p class="sub">{brand.role}</p>
+        <p class="blurb">{brand.footerBlurb}</p>
+      </div>
+
+      <div class="cols">
+        <div>
+          <p class="ct">Contact</p>
+          <ul>
+            <li><a href={`mailto:${brand.email}`}>{brand.email}</a></li>
+            <li><a href={brand.phoneHref}>{brand.phone}</a></li>
+            <li>{brand.address.city}</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="ct">Elsewhere</p>
+          <ul>
+            <li>
+              <a href={brand.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </li>
+            <li><a href={brand.bookingHref} {...brand.calTrigger}>{brand.bookingLabel}</a></li>
+            <li>
+              <a href={brand.company.url} target="_blank" rel="noopener noreferrer">
+                {brand.company.name}<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="base">
+      <span class="legalline">
+        <span>&copy; {year} {brand.name}. All rights reserved.</span>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Use</a>
+      </span>
+      <span>{brand.address.city} &middot; Working worldwide</span>
+    </div>
+  </div>
+</footer>

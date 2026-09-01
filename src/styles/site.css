@@ -1,0 +1,1458 @@
+/* ==========================================================================
+   Ella Siew — one-page personal-brand site
+   --------------------------------------------------------------------------
+   Palette is OKLCH throughout, per the site-kit design laws: no pure black or
+   white, every neutral tinted toward the brand hue, and exactly one committed
+   accent. The scene that set it: a strategist's quiet office above Hong Kong
+   harbour at dusk. Deep teal ground, warm brass light.
+   ========================================================================== */
+
+:root {
+  /* Ella Siew brand palette, converted from the identity sheet to OKLCH.
+     Every value below is a brand colour, not an invention:
+       #103C31 deep green   -> ground
+       #082A23 darkest      -> alternating bands
+       #F1EBDD cream        -> ink
+       #A9B9A6 sage         -> secondary text
+       #C4A46B gold         -> the single accent
+     Contrast on the green ground: cream 10.3, sage 5.9, gold 5.2, all AA+. */
+
+  /* Ground: brand deep green. The portrait's own backdrop is this same green,
+     so the photograph sits inside the page rather than on top of it. */
+  --bg: oklch(0.323 0.052 173.2);
+  --bg-deep: oklch(0.258 0.041 176.5);
+  --bg-raise: oklch(0.365 0.050 173.0);
+
+  /* Ink: brand cream, never #fff. */
+  --ink: oklch(0.941 0.020 87.5);
+  --muted: oklch(0.768 0.032 140.7);
+  --faint: oklch(0.700 0.028 145.0);
+
+  /* The one accent: brand gold. */
+  --accent: oklch(0.734 0.084 81.3);
+  --accent-deep: oklch(0.660 0.086 79.0);
+
+  --hair: color-mix(in oklch, var(--ink) 14%, transparent);
+  --hair-soft: color-mix(in oklch, var(--ink) 8%, transparent);
+
+  --disp: 'Fraunces', Georgia, serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --wrap: 1180px;
+  --gut: clamp(20px, 5vw, 56px);
+
+  color-scheme: dark;
+}
+
+/* ---- reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky nav must not cover the target of an in-page jump. */
+  scroll-padding-top: 92px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-deep);
+}
+
+/* Visible, branded focus ring for keyboard users on every interactive thing. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+}
+.skip:focus {
+  left: var(--gut);
+  top: 12px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: var(--bg-deep);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- ambient background mesh (the only always-on motion) ---- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -10%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 48% at 14% 10%, color-mix(in oklch, var(--accent) 13%, transparent), transparent 62%),
+    radial-gradient(46% 54% at 88% 24%, color-mix(in oklch, var(--accent) 8%, transparent), transparent 64%),
+    radial-gradient(56% 62% at 50% 104%, color-mix(in oklch, var(--accent) 12%, transparent), transparent 66%),
+    var(--bg);
+  animation: meshDrift 26s ease-in-out infinite;
+}
+
+@keyframes meshDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-2%, 1.5%, 0) scale(1.04);
+  }
+}
+
+/* ---- film grain: the texture that keeps flat colour from looking digital ---- */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 7s steps(6) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-6%, 4%); }
+  40% { transform: translate(4%, -6%); }
+  60% { transform: translate(-4%, 6%); }
+  80% { transform: translate(6%, -4%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---- layout ---- */
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gut);
+}
+
+section {
+  position: relative;
+  z-index: 2;
+}
+
+.band {
+  /* Halved from clamp(84px, 13vh, 156px) — the shared top/bottom gap every
+     section uses, so this one change tightens every section boundary. */
+  padding: clamp(42px, 6.5vh, 78px) 0;
+}
+
+.band--deep {
+  background: color-mix(in oklch, var(--bg-deep) 92%, transparent);
+  border-top: 1px solid var(--hair-soft);
+  border-bottom: 1px solid var(--hair-soft);
+}
+
+/* ---- shared type ---- */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 18px;
+}
+
+.h2 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin: 0;
+  max-width: 18ch;
+  /* Even out the rag instead of leaving a one-word last line. */
+  text-wrap: balance;
+}
+
+.h2 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* The immediate answer under each question heading: this is what an AI answer
+   engine is most likely to lift, so it stays a single clear sentence. */
+.lead {
+  font-size: clamp(19px, 2.1vw, 23px);
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 22px 0 0;
+  max-width: 42ch;
+}
+
+.prose p {
+  color: var(--muted);
+  max-width: 68ch;
+  margin: 20px 0 0;
+}
+
+.rule {
+  width: 54px;
+  height: 2px;
+  border: 0;
+  margin: 0 0 28px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 15px 30px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: transform 0.35s var(--ease), filter 0.3s var(--ease), background 0.3s var(--ease);
+  will-change: transform;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--bg-deep);
+}
+.btn--primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn--ghost {
+  border-color: var(--hair);
+  color: var(--ink);
+}
+.btn--ghost:hover {
+  background: color-mix(in oklch, var(--ink) 7%, transparent);
+}
+
+.btn .arw {
+  transition: transform 0.35s var(--ease);
+}
+.btn:hover .arw {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px var(--gut);
+  border-bottom: 1px solid transparent;
+  transition: padding 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+/* Scrim guarantees nav legibility over the hero at scroll = 0. */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 260%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--bg) 72%, transparent), transparent);
+  transition: opacity 0.45s var(--ease);
+}
+
+.nav.solid {
+  padding: 12px var(--gut);
+  background: color-mix(in oklch, var(--bg) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--hair-soft);
+}
+.nav.solid::before {
+  opacity: 0;
+}
+
+.nav .mark {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.nav .mark img {
+  display: block;
+  height: auto;
+}
+
+.nav .links {
+  display: flex;
+  gap: 30px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: color-mix(in oklch, var(--ink) 82%, transparent);
+}
+.nav .links a {
+  position: relative;
+  padding: 4px 0;
+}
+.nav .links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.35s var(--ease);
+}
+.nav .links a:hover::after,
+.nav .links a:focus-visible::after {
+  width: 100%;
+}
+
+.nav .navcta {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg-deep);
+  white-space: nowrap;
+  transition: filter 0.3s var(--ease);
+}
+.nav .navcta:hover {
+  filter: brightness(1.08);
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  position: relative;
+  /* Reduced from 100svh. Because content is vertically centered
+     (align-items: center), a full-viewport min-height doesn't just add
+     padding — any leftover height splits above AND below the content, so on
+     a tall monitor the gap before the next section grows far past the
+     padding value below (measured: 157px of gap on a 1000px-tall viewport
+     vs. a 100px padding-bottom). Shrinking min-height is what actually caps
+     that phantom gap; padding alone could not. */
+  min-height: 82svh;
+  display: flex;
+  align-items: center;
+  /* Bottom value halved from clamp(64px, 10vh, 104px) — this is the gap
+     before the first content section (Authority). Top value reduced from
+     132px but not fully halved: it also clears the fixed nav (~84px tall),
+     and 66px would tuck the eyebrow text under it. */
+  padding: 96px 0 clamp(32px, 5vh, 52px);
+}
+
+.hero .wrap {
+  width: 100%;
+}
+
+.hero .grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(36px, 6vw, 84px);
+  align-items: center;
+}
+
+.hero h1 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(46px, 7.4vw, 104px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero .lede {
+  margin: 26px 0 0;
+  max-width: 46ch;
+  font-size: clamp(17px, 1.9vw, 20px);
+  color: var(--muted);
+}
+
+.hero .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 38px;
+}
+
+.hero .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-top: 42px;
+  padding-top: 26px;
+  border-top: 1px solid var(--hair-soft);
+  font-size: 13.5px;
+  color: var(--faint);
+}
+
+/* --- portrait --- */
+.portrait {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 420px;
+}
+
+.portrait .frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 200px 200px 18px 18px;
+  overflow: hidden;
+  background: var(--bg-raise);
+  border: 1px solid var(--hair);
+}
+
+.portrait .frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Bias the crop upward so the face sits in the top third at every size. */
+  object-position: 50% 22%;
+}
+
+/* Warm brass light falling across the portrait, tying it to the accent. */
+.portrait .frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 50% at 82% 6%, color-mix(in oklch, var(--accent) 20%, transparent), transparent 62%),
+    linear-gradient(to top, color-mix(in oklch, var(--bg-deep) 52%, transparent), transparent 46%);
+}
+
+.portrait .halo {
+  position: absolute;
+  inset: -14% -10% -6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in oklch, var(--accent) 17%, transparent), transparent 72%);
+  filter: blur(30px);
+}
+
+/* Placeholder shown only while no portrait file has been supplied. */
+.portrait .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 30px;
+  background:
+    radial-gradient(72% 54% at 50% 26%, color-mix(in oklch, var(--accent) 14%, transparent), transparent 68%),
+    var(--bg-raise);
+}
+
+.portrait .placeholder .mono {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: 76px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.portrait .placeholder .note {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--faint);
+  max-width: 24ch;
+}
+
+/* ==========================================================================
+   Authority
+   ========================================================================== */
+.authority .grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(32px, 5vw, 76px);
+  align-items: start;
+}
+
+.pull {
+  margin: 40px 0 0;
+  padding: 26px 0 0;
+  border-top: 1px solid var(--hair-soft);
+  font-family: var(--disp);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(22px, 2.8vw, 32px);
+  line-height: 1.25;
+  color: var(--ink);
+  max-width: 26ch;
+}
+
+/* ==========================================================================
+   Services
+   ========================================================================== */
+.svc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3.4vw, 48px);
+  margin-top: clamp(48px, 7vh, 76px);
+}
+
+.svc .card {
+  position: relative;
+  padding: clamp(30px, 3.4vw, 46px);
+  border: 1px solid var(--hair-soft);
+  border-radius: 16px;
+  background: color-mix(in oklch, var(--bg-raise) 55%, transparent);
+  transition: border-color 0.45s var(--ease), transform 0.45s var(--ease);
+}
+
+.svc .card:hover {
+  border-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  transform: translateY(-3px);
+}
+
+.svc .n {
+  font-family: var(--disp);
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.svc .k {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  /* Sage, not --faint: the raised card surface lifts the background enough
+     that --faint would drop to 4.2:1 and miss AA on this small a label. */
+  color: var(--muted);
+  margin: 22px 0 12px;
+}
+
+.svc .k svg {
+  flex: none;
+  /* Gold, not the label's own sage: the icon is a visual anchor and reads
+     better carrying the page's one accent than the muted label colour. */
+  color: var(--accent);
+}
+
+.svc h3 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.svc p {
+  color: var(--muted);
+  margin: 18px 0 0;
+  font-size: 16px;
+}
+
+.svc ul {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--hair-soft);
+}
+
+.svc li {
+  position: relative;
+  padding: 13px 0 13px 22px;
+  font-size: 15px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--hair-soft);
+}
+
+.svc li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 21px;
+  width: 7px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ==========================================================================
+   Audience
+   ========================================================================== */
+.aud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(20px, 2.6vw, 34px);
+  margin-top: clamp(44px, 6vh, 68px);
+}
+
+.aud .item {
+  padding-top: 22px;
+  border-top: 1px solid var(--hair);
+}
+
+.aud h3 {
+  font-family: var(--disp);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.2;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+
+.aud p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.aud-note {
+  margin: clamp(38px, 5vh, 58px) 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--hair-soft);
+  font-size: 15.5px;
+  color: var(--faint);
+  max-width: 62ch;
+}
+
+/* ==========================================================================
+   Process
+   ========================================================================== */
+.steps {
+  margin-top: clamp(44px, 6vh, 68px);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 0.34fr 0.66fr;
+  gap: clamp(20px, 4vw, 56px);
+  align-items: baseline;
+  padding: clamp(26px, 3.6vh, 40px) 0;
+  border-top: 1px solid var(--hair-soft);
+}
+.step:last-child {
+  border-bottom: 1px solid var(--hair-soft);
+}
+
+.step .n {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--disp);
+  font-style: italic;
+  font-size: clamp(17px, 1.9vw, 21px);
+  color: var(--accent);
+}
+
+.step .n-ic {
+  flex: none;
+}
+
+.step h3 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(25px, 3.2vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.step p {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 56ch;
+}
+
+/* ==========================================================================
+   Plate: full-bleed image beat between two text sections
+   ========================================================================== */
+.plate {
+  position: relative;
+  height: clamp(420px, 68vh, 660px);
+  overflow: hidden;
+}
+
+.plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--bg-deep);
+}
+
+/* Darkens top and bottom so the band joins the sections either side instead
+   of sitting in the page as a hard rectangle. */
+.plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--bg) 72%, transparent) 0%,
+    color-mix(in oklch, var(--bg) 12%, transparent) 34%,
+    color-mix(in oklch, var(--bg) 30%, transparent) 62%,
+    color-mix(in oklch, var(--bg) 88%, transparent) 100%
+  );
+}
+
+.plate .pq {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  z-index: 2;
+  text-align: center;
+  padding: 0 var(--gut);
+}
+
+.plate .pq p {
+  margin: 0 auto;
+  max-width: 22ch;
+  font-family: var(--disp);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(24px, 3.6vw, 46px);
+  line-height: 1.16;
+  color: var(--ink);
+  text-wrap: balance;
+  text-shadow: 0 2px 30px color-mix(in oklch, var(--bg-deep) 80%, transparent);
+}
+
+/* ==========================================================================
+   About
+   ========================================================================== */
+.about .grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(32px, 5vw, 76px);
+  align-items: start;
+}
+
+.afig {
+  position: relative;
+  /* Capped so the portrait reads as a supporting element beside the copy,
+     not as a second hero. */
+  max-width: 290px;
+  margin: 0 0 32px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--hair-soft);
+  aspect-ratio: 4 / 5;
+}
+
+.afig img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+
+/* This frame is a warm cream photograph sitting on a deep green page. The same
+   treatment the hero portrait gets: a touch of brass light and a green fade at
+   the base, so it belongs to the page instead of floating on it. */
+.afig::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(72% 48% at 84% 4%, color-mix(in oklch, var(--accent) 16%, transparent), transparent 64%),
+    linear-gradient(to top, color-mix(in oklch, var(--bg-deep) 38%, transparent), transparent 34%);
+}
+
+.facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hair);
+}
+
+.facts li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 18px;
+  /* Tightened from 16px 0 now that the list is 3 rows, not 4 — the goal is
+     a compact fact strip beside the portrait, not a tall block. */
+  padding: 10px 0;
+  border-bottom: 1px solid var(--hair-soft);
+}
+
+.facts .k {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.facts .v {
+  font-family: var(--disp);
+  font-size: 16px;
+  color: var(--ink);
+  text-align: right;
+}
+
+.facts a.v-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.facts a.v-link::after {
+  content: '\2197';
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.facts a.v-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ==========================================================================
+   Insights
+   ========================================================================== */
+/* Wide banner above the three cards: gives the lower third of the page a
+   visual break, and a notebook suits the heading it sits under. */
+.insband {
+  margin: clamp(38px, 5vh, 56px) 0 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--hair-soft);
+  /* A letterboxed strip, not a picture block: it is a divider between the
+     heading and the three cards, so it stays subordinate to both. */
+  aspect-ratio: 1856 / 520;
+}
+
+.insband img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ins {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2.6vw, 34px);
+  margin-top: clamp(40px, 5.5vh, 60px);
+}
+
+.ins .item {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 0 0;
+  border-top: 1px solid var(--hair);
+}
+
+.ins .k {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.ins .k svg {
+  flex: none;
+}
+
+.ins h3 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(23px, 2.5vw, 29px);
+  line-height: 1.12;
+  margin: 0 0 12px;
+}
+
+.ins p {
+  margin: 0;
+  font-size: 15.5px;
+  color: var(--muted);
+}
+
+/* Reserved, currently unused: the bold gold link-with-arrow treatment for
+   when real LinkedIn permalinks exist and Insights.astro goes back to
+   rendering an <a class="ins-cta">. See the comment on brand.insights. */
+.ins-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: clamp(38px, 5vh, 54px);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.ins-cta .arw {
+  transition: transform 0.35s var(--ease);
+}
+.ins-cta:hover .arw {
+  transform: translateX(4px);
+}
+
+/* The current state: a quiet, non-interactive note. Deliberately styled
+   nothing like a link (no accent colour, no weight, no arrow) so it never
+   reads as clickable. */
+.ins-note {
+  margin-top: clamp(38px, 5vh, 54px);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--faint);
+}
+
+/* ==========================================================================
+   Closing CTA
+   ========================================================================== */
+.close {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  /* Halved from clamp(104px, 16vh, 188px). */
+  padding: clamp(52px, 8vh, 94px) 0;
+}
+
+.closebg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.closebg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Favour the image's calm right-hand field. The vertical fins are handsome
+     but they stripe the area the headline occupies, so they stay at the edge. */
+  object-position: 78% 50%;
+}
+
+/* Scrim: the backdrop is atmosphere, the copy still has to carry AA contrast. */
+.closebg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--bg) 78%, transparent),
+      color-mix(in oklch, var(--bg) 62%, transparent) 45%,
+      color-mix(in oklch, var(--bg) 84%, transparent)
+    ),
+    radial-gradient(58% 62% at 50% 50%, color-mix(in oklch, var(--bg-deep) 72%, transparent), transparent 72%);
+}
+
+.close .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.close h2 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(44px, 7.6vw, 108px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.close p {
+  margin: 24px auto 0;
+  max-width: 48ch;
+  color: var(--muted);
+  font-size: 17.5px;
+}
+
+.close .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.foot {
+  position: relative;
+  overflow: hidden;
+  /* Not halved: this is the minimum height the aurora/dots effect needs to
+     read as a glow rather than a stripe, not whitespace between sections. */
+  min-height: 240px;
+  border-top: 1px solid var(--hair-soft);
+  background: color-mix(in oklch, var(--bg-deep) 94%, transparent);
+  /* Top and bottom halved from clamp(48px, 8vh, 76px) 0 34px. */
+  padding: clamp(24px, 4vh, 38px) 0 17px;
+}
+
+.footfx {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.footfx .aurora {
+  position: absolute;
+  left: -15%;
+  right: -15%;
+  bottom: -70%;
+  height: 230%;
+  background:
+    radial-gradient(46% 64% at 28% 100%, var(--accent), transparent 66%),
+    radial-gradient(40% 56% at 72% 100%, var(--accent), transparent 66%);
+  filter: blur(56px);
+  opacity: 0.26;
+  animation: auroraDrift 16s ease-in-out infinite;
+}
+
+@keyframes auroraDrift {
+  0%,
+  100% { transform: translateX(-4%) scaleY(1); }
+  50% { transform: translateX(4%) scaleY(1.18); }
+}
+
+.footfx .dot {
+  position: absolute;
+  bottom: 6px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  box-shadow: 0 0 10px var(--accent);
+  animation: dotRise linear infinite;
+}
+
+@keyframes dotRise {
+  0% { transform: translateY(0) scale(0.4); opacity: 0; }
+  18% { opacity: 0.8; }
+  80% { opacity: 0.5; }
+  100% { transform: translateY(-88px) scale(1); opacity: 0; }
+}
+
+.foot > * {
+  position: relative;
+  z-index: 1;
+}
+
+.foot .top {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(30px, 5vw, 64px);
+  align-items: start;
+}
+
+.foot .mark {
+  margin: 0 0 12px;
+}
+
+.foot .mark img {
+  display: block;
+  height: auto;
+}
+
+/* The lockup's subtitle: tracked caps between two short gold rules. */
+.foot .sub {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.foot .sub::before,
+.foot .sub::after {
+  content: '';
+  height: 1px;
+  width: 22px;
+  flex: none;
+  background: var(--accent);
+}
+
+.foot .sub::after {
+  flex: 1;
+  max-width: 60px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.foot .blurb {
+  color: var(--muted);
+  font-size: 15.5px;
+  max-width: 46ch;
+  margin: 0;
+}
+
+.foot .cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.foot .ct {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 14px;
+}
+
+.foot ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.foot ul a {
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+.foot ul a:hover {
+  color: var(--accent);
+}
+
+.foot .base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: clamp(42px, 6vh, 64px);
+  padding-top: 24px;
+  border-top: 1px solid var(--hair-soft);
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.foot .legalline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+
+.foot .legalline a {
+  color: var(--faint);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--faint) 35%, transparent);
+  text-underline-offset: 2px;
+}
+.foot .legalline a:hover {
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Reveal primitives (transform + opacity only)
+   ========================================================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+[data-reveal].in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.9s var(--ease), transform 1s var(--ease);
+}
+
+/* Staggered children, set by motion.js via --i. */
+[data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+[data-reveal-group].in > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.85s var(--ease), transform 0.95s var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* If JS never runs, nothing stays invisible. */
+html:not(.js) [data-reveal],
+html:not(.js) [data-reveal-group] > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Legal pages (Privacy Policy, Terms of Use)
+   -------------------------------------------------------------------------
+   Long-form reading, not the one-page spine: a single narrow column reusing
+   the same tokens (Fraunces headings, the hairline rule, --muted body copy)
+   so it reads as the same site, not a bolted-on document.
+   ========================================================================== */
+.legal {
+  padding: clamp(140px, 18vh, 190px) 0 clamp(90px, 12vh, 130px);
+}
+
+.legal .wrap {
+  max-width: 760px;
+}
+
+.legal h1 {
+  font-family: var(--disp);
+  font-weight: 300;
+  font-size: clamp(36px, 5.5vw, 56px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin: 0 0 40px;
+}
+
+.legal h2 {
+  font-family: var(--disp);
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 27px);
+  line-height: 1.2;
+  margin: 52px 0 16px;
+}
+
+.legal h2:first-of-type {
+  margin-top: 8px;
+}
+
+.legal p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 68ch;
+  margin: 16px 0 0;
+}
+
+.legal p strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.legal ul {
+  margin: 16px 0 0;
+  padding-left: 22px;
+  color: var(--muted);
+}
+
+.legal li {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 8px 0;
+}
+
+.legal a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+.legal a:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1020px) {
+  .aud,
+  .ins {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav .links {
+    display: none;
+  }
+
+  .hero {
+    /* Reduced from 116px, not halved — same fixed-nav clearance reasoning
+       as the desktop rule, and mobile stacks the portrait first so it needs
+       to clear the nav too. */
+    padding-top: 88px;
+  }
+
+  .hero .grid,
+  .authority .grid,
+  .about .grid,
+  .foot .top {
+    grid-template-columns: 1fr;
+  }
+
+  /* Portrait leads on mobile: face first, then the claim. */
+  .hero .grid .portrait {
+    order: -1;
+    max-width: 300px;
+  }
+
+  .portrait .frame {
+    aspect-ratio: 1 / 1;
+    border-radius: 160px 160px 16px 16px;
+  }
+
+  .svc,
+  .aud,
+  .ins {
+    grid-template-columns: 1fr;
+  }
+
+  /* The desktop letterbox would collapse to a sliver at phone widths. */
+  .insband {
+    aspect-ratio: 16 / 9;
+  }
+
+  .afig {
+    max-width: 260px;
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .h2,
+  .lead {
+    max-width: none;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 16px;
+  }
+
+  .nav .navcta {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .hero .actions .btn,
+  .close .actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .foot .cols {
+    grid-template-columns: 1fr;
+  }
+
+  .facts li {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .facts .v {
+    text-align: left;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion: stop everything ambient, reveal everything immediately.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body::before,
+  .grain,
+  .footfx {
+    animation: none;
+  }
+
+  .footfx .dot {
+    display: none;
+  }
+
+  [data-reveal],
+  [data-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

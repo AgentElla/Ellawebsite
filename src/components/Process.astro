@@ -1,0 +1,32 @@
+---
+import { brand } from '../data/brand';
+import Icon from './Icon.astro';
+const s = brand.process;
+---
+
+<section class="band band--deep" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <div class="wrap">
+    <div data-reveal>
+      <hr class="rule" />
+      <h2 class="h2" id={`${s.id}-h`}>{s.heading}</h2>
+      <p class="lead">{s.lead}</p>
+    </div>
+
+    <ol class="steps" style="list-style:none;margin:0;padding:0">
+      {
+        s.steps.map((step) => (
+          <li class="step" data-reveal>
+            <span class="n">
+              <Icon name={step.icon} size={26} strokeWidth={1.6} class="n-ic" />
+              {step.n}
+            </span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,124 @@
+---
+/**
+ * The only layout. Head, skip link, nav slot, main, footer slot.
+ * Meta shape mirrors the multi-page site's BaseHead.astro so both properties
+ * present identically when shared.
+ */
+import { brand } from '../data/brand';
+import Schema from '../components/Schema.astro';
+import '../styles/site.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /**
+   * Absolute URL of the portrait, for the Person/ProfessionalService schema.
+   * Kept separate from the OG image: schema wants the actual likeness at its
+   * native portrait ratio, while OG wants a 1.91:1 card that a portrait crop
+   * would badly letterbox.
+   */
+  schemaImage?: string;
+  /** Absolute URL of the ProfessionalService.logo brand mark for JSON-LD. */
+  schemaLogo?: string;
+  /** Absolute URL of the social share card. */
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  schemaImage,
+  schemaLogo,
+  ogImage = new URL('/og-image.jpg', brand.url).toString(),
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, brand.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- No source vector exists for the ES mark, only the raster brand
+         exports, so favicon is PNG/ICO rather than a redrawn SVG. -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta name="author" content={brand.name} />
+    <meta name="theme-color" content="#103C31" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={brand.seo.ogImageAlt} />
+    <meta property="og:site_name" content={brand.name} />
+    <meta property="og:locale" content="en_HK" />
+    <meta property="profile:first_name" content="Ella" />
+    <meta property="profile:last_name" content="Siew" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts: Fraunces (display) + Inter (body), matching the main site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&display=swap"
+    />
+
+    <Schema
+      imageUrl={schemaImage}
+      logoUrl={schemaLogo}
+      pageUrl={canonical}
+      pageTitle={title}
+      pageDescription={description}
+    />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <!--
+      Cal.com element-click embed — official snippet, unmodified, loaded once
+      site-wide in <head>. It binds a delegated click listener on `document`
+      for any element carrying `data-cal-namespace`/`data-cal-link` (see
+      brand.calTrigger, spread onto every "Book a call" control), so it works
+      regardless of where in the DOM those buttons live or when they're
+      added. Do not duplicate this block per-component — one load, one init.
+    -->
+    <script is:inline type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", "booking", {origin:"https://app.cal.com"});
+      Cal.config = Cal.config || {};
+      Cal.config.forwardQueryParams = true;
+      Cal.ns.booking("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    </script>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <slot name="nav" />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+    <script src="../scripts/motion.js"></script>
+  </body>
+</html>

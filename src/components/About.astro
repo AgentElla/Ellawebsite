@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { brand } from '../data/brand';
+import aboutPortrait from '../assets/about-portrait-seminar.png';
+const s = brand.about;
+
+// Appended here rather than stored as a literal in brand.ts, so the company
+// name and URL have exactly one source of truth: brand.company.
+const facts = [...s.facts, { k: 'Company', v: brand.company.name, href: brand.company.url }];
+---
+
+<section class="band about" id={s.id} aria-labelledby={`${s.id}-h`}>
+  <div class="wrap">
+    <div class="grid">
+      <div class="prose" data-reveal>
+        <hr class="rule" />
+        <h2 class="h2" id={`${s.id}-h`}>{s.heading}</h2>
+        <p class="lead">{s.lead}</p>
+        {s.body.map((p) => <p>{p}</p>)}
+      </div>
+
+      <div data-reveal>
+        <figure class="afig">
+          <Image
+            src={aboutPortrait}
+            alt={brand.aboutPortraitAlt}
+            widths={[380, 560, 760, 1122]}
+            sizes="(max-width: 900px) 100vw, 380px"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
+        <ul class="facts">
+          {
+            facts.map((f) => (
+              <li>
+                <span class="k">{f.k}</span>
+                {'href' in f && f.href ? (
+                  <a class="v v-link" href={f.href} target="_blank" rel="noopener noreferrer">
+                    {f.v}
+                    <span class="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  <span class="v">{f.v}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

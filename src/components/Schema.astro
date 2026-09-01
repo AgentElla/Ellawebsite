@@ -1,0 +1,146 @@
+---
+/**
+ * All structured data for the page, as a single @graph.
+ *
+ * One page means one script tag: Person and ProfessionalService reference each
+ * other by @id rather than repeating their properties, and WebPage/WebSite tie
+ * the graph to the URL. Shape follows the multi-page site's PersonSchema and
+ * LocalBusinessSchema so both properties describe the same entity identically.
+ *
+ * Nothing here asserts a rating, review count, award or result, because none
+ * have been verified. Do not add aggregateRating or review without real data.
+ */
+import { brand } from '../data/brand';
+
+interface Props {
+  /** Absolute URL of the portrait, when one has been supplied. */
+  imageUrl?: string;
+  /**
+   * Absolute URL of the brand mark for ProfessionalService.logo. Not set on
+   * Person: schema.org has no `logo` property for Person, and Person.image
+   * is correctly the portrait (imageUrl), not the wordmark.
+   */
+  logoUrl?: string;
+  /**
+   * This specific page's own canonical URL/title/description, for the
+   * WebPage node. Person/ProfessionalService/WebSite are site-wide entities
+   * and always point at brand.url regardless of which page renders them —
+   * only WebPage describes the page it's actually embedded on. Defaults to
+   * the homepage's own values, so index.astro doesn't need to pass these.
+   */
+  pageUrl?: string;
+  pageTitle?: string;
+  pageDescription?: string;
+}
+
+const {
+  imageUrl,
+  logoUrl,
+  pageUrl = brand.url,
+  pageTitle = brand.seo.title,
+  pageDescription = brand.seo.description,
+} = Astro.props;
+
+const personId = `${brand.url}/#person`;
+const serviceId = `${brand.url}/#business`;
+const siteId = `${brand.url}/#website`;
+
+const graph = [
+  {
+    '@type': 'Person',
+    '@id': personId,
+    name: brand.name,
+    jobTitle: brand.roleLong,
+    description: brand.seo.description,
+    url: brand.url,
+    email: `mailto:${brand.email}`,
+    telephone: brand.phone,
+    ...(imageUrl ? { image: imageUrl } : {}),
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: brand.address.city,
+      addressCountry: brand.address.country,
+    },
+    knowsAbout: [
+      'Search Engine Optimisation',
+      'Generative Engine Optimisation',
+      'AI search visibility',
+      'LinkedIn personal branding',
+      'Founder personal brand strategy',
+    ],
+    worksFor: { '@id': serviceId },
+    sameAs: [brand.linkedin].filter(Boolean),
+  },
+  {
+    '@type': 'ProfessionalService',
+    '@id': serviceId,
+    name: brand.name,
+    // The registered Hong Kong company this practice trades through. Distinct
+    // from `name` (the personal-brand trading name shown throughout the page)
+    // — schema.org's legalName exists exactly for this split.
+    legalName: brand.company.name,
+    description: brand.seo.description,
+    url: brand.url,
+    email: brand.email,
+    telephone: brand.phone,
+    ...(imageUrl ? { image: imageUrl } : {}),
+    // The icon-only mark, dark ink on transparent: the right choice here
+    // since search engines render Organization.logo on a light surface
+    // (e.g. a Knowledge Panel), unlike this page's own dark background.
+    ...(logoUrl
+      ? { logo: { '@type': 'ImageObject', url: logoUrl, width: 1243, height: 1208 } }
+      : {}),
+    priceRange: '$$$',
+    founder: { '@id': personId },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: brand.address.city,
+      addressCountry: brand.address.country,
+    },
+    areaServed: [
+      { '@type': 'AdministrativeArea', name: 'Hong Kong' },
+      { '@type': 'AdministrativeArea', name: 'Singapore' },
+      { '@type': 'AdministrativeArea', name: 'Australia' },
+      { '@type': 'AdministrativeArea', name: 'United Kingdom' },
+      { '@type': 'AdministrativeArea', name: 'United States' },
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Services',
+      itemListElement: brand.services.items.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: s.title,
+          description: s.body,
+        },
+      })),
+    },
+    // linkedin is the personal profile; company.url is the corporate site for
+    // the same legal entity named above — both legitimately belong here.
+    sameAs: [brand.linkedin, brand.company.url].filter(Boolean),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': siteId,
+    url: brand.url,
+    name: brand.name,
+    publisher: { '@id': personId },
+    inLanguage: 'en',
+  },
+  {
+    '@type': 'WebPage',
+    '@id': `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: pageTitle,
+    description: pageDescription,
+    isPartOf: { '@id': siteId },
+    about: { '@id': personId },
+    inLanguage: 'en',
+  },
+];
+
+const schema = { '@context': 'https://schema.org', '@graph': graph };
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

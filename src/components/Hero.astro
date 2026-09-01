@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import { brand } from '../data/brand';
+import { portrait } from '../data/portrait';
+---
+
+<header class="hero">
+  <div class="wrap">
+    <div class="grid">
+      <div data-reveal>
+        <p class="eyebrow">{brand.hero.eyebrow}</p>
+
+        <!-- The page's only H1. -->
+        <h1>Be the name AI keeps <em>recommending.</em></h1>
+
+        <p class="lede">{brand.hero.lede}</p>
+
+        <div class="actions">
+          <a class="btn btn--primary" href={brand.bookingHref} data-magnetic {...brand.calTrigger}>
+            {brand.bookingLabel}
+            <span class="arw" aria-hidden="true">&rarr;</span>
+          </a>
+          <a class="btn btn--ghost" href={`#${brand.services.id}`}>See what I do</a>
+        </div>
+
+        <div class="meta">
+          <span>AI SEO and GEO</span>
+          <span>LinkedIn personal branding</span>
+          <span>Founders and B2B teams</span>
+        </div>
+      </div>
+
+      <div class="portrait" data-reveal>
+        <div class="halo" aria-hidden="true"></div>
+        <div class="frame">
+          {
+            portrait ? (
+              /* LCP element: eager + high priority, explicit dimensions so it
+                 reserves its box and never shifts the layout. */
+              <Image
+                src={portrait}
+                alt={brand.portraitAlt}
+                widths={[300, 420, 600, 768]}
+                sizes="(max-width: 900px) 300px, 420px"
+                loading="eager"
+                fetchpriority="high"
+                decoding="sync"
+              />
+            ) : (
+              <div class="placeholder">
+                <span class="mono" aria-hidden="true">ES</span>
+                <span class="note">
+                  Portrait pending. Add the photo at
+                  <br />
+                  <code>src/assets/portrait.jpg</code>
+                </span>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,12 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"compatibility_date": "2026-08-28",
+	"name": "ella-siew-onepage",
+	// Static build: no Worker entrypoint, Cloudflare serves ./dist directly.
+	"assets": {
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true
+	}
+}

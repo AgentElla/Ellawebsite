@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import { brand } from '../data/brand';
+import harbour from '../assets/plate-harbour-night.webp';
+---
+
+<!-- A full-bleed visual beat between two text-heavy sections. Not a section:
+     it carries one line and no heading, so it does not enter the H2 outline.
+
+     Static image, not the animated push-in this used to be: the motion read
+     as janky on the client's device even after fixing the easing curve, so
+     per their explicit instruction this is image-only now.
+
+     Decorative: empty alt, same as the CloseCTA background below. The
+     caption text carries the actual meaning; the photo is atmosphere. -->
+<section class="plate" aria-label="Hong Kong">
+  <Image
+    src={harbour}
+    alt=""
+    widths={[768, 1280, 1600]}
+    sizes="100vw"
+    loading="lazy"
+    decoding="async"
+  />
+
+  <div class="pq" data-reveal>
+    <p>{brand.plate.line}</p>
+  </div>
+</section>
