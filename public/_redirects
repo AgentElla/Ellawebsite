@@ -1,0 +1,9 @@
+# Old multi-page site routes -> new one-page site.
+# Preserves any inbound links / search index entries from the previous
+# Vercel-hosted site after the Cloudflare one-page rebuild.
+/about              /  301
+/contact             /  301
+/services            /  301
+/services/*          /  301
+/locations           /  301
+/locations/*         /  301
