@@ -9,4 +9,5 @@
 	"observability": {
 		"enabled": true
 	}
+	// Deploy verification commit: confirms GitHub -> Cloudflare auto-deploy is wired up.
 }
