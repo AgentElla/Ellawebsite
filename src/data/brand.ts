@@ -15,7 +15,7 @@ export const brand = {
   /** Fuller descriptor, used where the services need spelling out. */
   roleLong: 'AI Visibility Strategist and LinkedIn Personal Brand Consultant',
   url: 'https://www.itsellasiew.com',
-  email: 'hello@itsellasiew.com',
+  email: 'hello@consultproservices.com',
   phone: '+852 9797 0968',
   phoneHref: 'tel:+85297970968',
   linkedin: 'https://www.linkedin.com/in/ella-siew-wen-pei-6ba854b1/',
@@ -40,7 +40,7 @@ export const brand = {
    * opening the visitor's mail client is a safer fallback than sending them
    * to an external page, which the embed is explicitly meant to avoid.
    */
-  bookingHref: 'mailto:hello@itsellasiew.com?subject=Consultation%20enquiry',
+  bookingHref: 'mailto:hello@consultproservices.com?subject=Consultation%20enquiry',
   bookingLabel: 'Book a call',
 
   /**
