@@ -192,8 +192,44 @@ section {
 
 .band--deep {
   background: color-mix(in oklch, var(--bg-deep) 92%, transparent);
-  border-top: 1px solid var(--hair-soft);
-  border-bottom: 1px solid var(--hair-soft);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Diagonal seam: a slightly raking cream line across the full section width,
+   replacing a flat hairline so each band-colour change reads as a cut
+   rather than a ruled border. Both edges tilt the same direction for one
+   consistent "sheet" feel as the page scrolls past them. */
+.band--deep::before,
+.band--deep::after {
+  content: '';
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--ink) 55%, transparent) 8%,
+    var(--ink) 50%,
+    color-mix(in oklch, var(--ink) 55%, transparent) 92%,
+    transparent
+  );
+  box-shadow: 0 0 22px color-mix(in oklch, var(--ink) 35%, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.band--deep::before {
+  top: 0;
+  transform: rotate(-0.9deg);
+  transform-origin: 50% 0;
+}
+
+.band--deep::after {
+  bottom: 0;
+  transform: rotate(-0.9deg);
+  transform-origin: 50% 100%;
 }
 
 /* ---- shared type ---- */
