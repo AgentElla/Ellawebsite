@@ -31,6 +31,12 @@ interface Props {
   pageUrl?: string;
   pageTitle?: string;
   pageDescription?: string;
+  /**
+   * True only on the homepage: turns the WebPage node into a ProfilePage
+   * whose mainEntity is the Person node, so Google can associate the page
+   * itself with Ella's identity rather than just describing it.
+   */
+  isProfilePage?: boolean;
 }
 
 const {
@@ -39,6 +45,7 @@ const {
   pageUrl = brand.url,
   pageTitle = brand.seo.title,
   pageDescription = brand.seo.description,
+  isProfilePage = false,
 } = Astro.props;
 
 const personId = `${brand.url}/#person`;
@@ -49,10 +56,14 @@ const graph = [
   {
     '@type': 'Person',
     '@id': personId,
-    name: brand.name,
+    name: brand.fullName,
+    // The trading name shown throughout the page — same distinction as
+    // ProfessionalService.legalName below, just for the person rather than
+    // the practice, so Google can tie both names to one identity.
+    alternateName: brand.name,
     jobTitle: brand.roleLong,
     description: brand.seo.description,
-    url: brand.url,
+    url: `${brand.url}/`,
     email: `mailto:${brand.email}`,
     telephone: brand.phone,
     ...(imageUrl ? { image: imageUrl } : {}),
@@ -68,7 +79,15 @@ const graph = [
       'LinkedIn personal branding',
       'Founder personal brand strategy',
     ],
-    worksFor: { '@id': serviceId },
+    // The registered company, given inline (name + url) rather than as an
+    // @id reference to the ProfessionalService node below: that node's own
+    // `url` is deliberately this site (see its comment), not the corporate
+    // site, so Person.worksFor points straight at the company instead.
+    worksFor: {
+      '@type': 'Organization',
+      name: brand.company.name,
+      url: brand.company.url,
+    },
     sameAs: [brand.linkedin].filter(Boolean),
   },
   {
@@ -129,13 +148,14 @@ const graph = [
     inLanguage: 'en',
   },
   {
-    '@type': 'WebPage',
+    '@type': isProfilePage ? 'ProfilePage' : 'WebPage',
     '@id': `${pageUrl}#webpage`,
     url: pageUrl,
     name: pageTitle,
     description: pageDescription,
     isPartOf: { '@id': siteId },
     about: { '@id': personId },
+    ...(isProfilePage ? { mainEntity: { '@id': personId } } : {}),
     inLanguage: 'en',
   },
 ];

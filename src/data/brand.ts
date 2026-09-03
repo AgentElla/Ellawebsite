@@ -10,10 +10,17 @@
 
 export const brand = {
   name: 'Ella Siew',
+  /**
+   * Ella's full legal/professional name. Used wherever identity needs to be
+   * unambiguous to search engines (SEO metadata, structured data, the About
+   * section and footer legal line) — `name` above stays the short trading
+   * name shown everywhere else on the page (nav, logo alt, footer sub-line).
+   */
+  fullName: 'Ella Siew Wen Pei',
   /** The official line from the brand identity sheet, under the ES monogram. */
   role: 'AI Visibility Strategist',
   /** Fuller descriptor, used where the services need spelling out. */
-  roleLong: 'AI Visibility Strategist and LinkedIn Personal Brand Consultant',
+  roleLong: 'Personal Branding & AI Visibility Strategist',
   url: 'https://www.itsellasiew.com',
   email: 'hello@consultproservices.com',
   phone: '+852 9797 0968',
@@ -22,8 +29,8 @@ export const brand = {
 
   /** The Hong Kong-registered company Ella operates her practice through. */
   company: {
-    name: 'ConsultPro Services Limited',
-    url: 'https://www.consultproservices.com',
+    name: 'Consultpro Services Limited',
+    url: 'https://www.consultproservices.com/',
   },
 
   address: {
@@ -55,22 +62,20 @@ export const brand = {
   },
 
   /** Required alt text for the portrait, specified by the brief. */
-  portraitAlt: 'Ella Siew, AI SEO and GEO strategist',
+  portraitAlt: 'Ella Siew Wen Pei, AI SEO and GEO strategist',
 
   seo: {
-    title: 'Ella Siew | AI Visibility Strategist in Hong Kong',
-    // Kept inside Google's ~160-character truncation window, matching the
-    // 140-160 range the multi-page site enforces in its content schema.
+    title: 'Ella Siew Wen Pei | Personal Branding & AI Visibility',
     description:
-      'AI SEO, GEO and LinkedIn personal branding for founders and B2B teams. Ella Siew helps you get found on Google and cited by AI search, from Hong Kong.',
-    ogImageAlt: 'Ella Siew, AI SEO and GEO strategist, Hong Kong',
+      'Ella Siew Wen Pei is a Personal Branding and AI Visibility Strategist helping B2B founders and executives build authority, become discoverable and create qualified business opportunities.',
+    ogImageAlt: 'Ella Siew Wen Pei, AI SEO and GEO strategist, Hong Kong',
   },
 
   hero: {
     // Matches `role` above by design — kept as a literal rather than a
     // reference since object literals can't refer to sibling properties
     // during their own construction.
-    eyebrow: 'AI Visibility Strategist',
+    eyebrow: 'Personal Branding & AI Visibility Strategist',
     /** The page's single H1. */
     h1: 'Be the name AI keeps recommending.',
     lede: 'I help founders and B2B teams get found on Google and cited by AI search, then turn that visibility into a LinkedIn presence people actually trust.',
@@ -161,7 +166,8 @@ export const brand = {
    * A second, distinct photograph of Ella for the About section. The hero
    * portrait is deliberately not reused here: one image, one place.
    */
-  aboutPortraitAlt: 'Ella Siew speaking at a seminar, holding a microphone in front of an audience',
+  aboutPortraitAlt:
+    'Ella Siew Wen Pei speaking at a seminar, holding a microphone in front of an audience',
 
   insightsBandAlt: 'A cream notebook and a brass pen on a wooden desk in warm light',
 
@@ -201,10 +207,10 @@ export const brand = {
   /** Section 7 — about. */
   about: {
     id: 'about',
-    heading: 'Who is Ella Siew?',
+    heading: 'About Ella Siew Wen Pei',
     lead: 'An independent strategist based in Hong Kong, working with clients worldwide.',
     body: [
-      'I work at the intersection of three things that are usually handled separately: search engine optimisation, AI visibility, and personal brand. Handled separately they tend to contradict each other. Handled together they reinforce each other, and that is the whole advantage.',
+      "I'm Ella Siew Wen Pei, also known professionally as Ella Siew, and I work at the intersection of three things that are usually handled separately: search engine optimisation, AI visibility, and personal brand. Handled separately they tend to contradict each other. Handled together they reinforce each other, and that is the whole advantage.",
       'Every engagement is built from your genuine knowledge and point of view. Nothing is mass-produced, and no ethical strategist can promise you a specific ranking or an AI mention. What I can promise is a structured, evidence-based strategy, applied consistently, with honest reporting on what is working.',
     ],
     // The trailing "Company" row is appended in About.astro from

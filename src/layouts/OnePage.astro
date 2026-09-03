@@ -22,6 +22,8 @@ interface Props {
   schemaLogo?: string;
   /** Absolute URL of the social share card. */
   ogImage?: string;
+  /** True only on the homepage — see Schema.astro's `isProfilePage` prop. */
+  isProfilePage?: boolean;
 }
 
 const {
@@ -30,6 +32,7 @@ const {
   schemaImage,
   schemaLogo,
   ogImage = new URL('/og-image.jpg', brand.url).toString(),
+  isProfilePage = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, brand.url).toString();
@@ -89,6 +92,7 @@ const canonical = new URL(Astro.url.pathname, brand.url).toString();
       pageUrl={canonical}
       pageTitle={title}
       pageDescription={description}
+      isProfilePage={isProfilePage}
     />
 
     <script is:inline>
